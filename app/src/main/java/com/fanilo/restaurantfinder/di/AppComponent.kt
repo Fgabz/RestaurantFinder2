@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import com.fanilo.core.annotation.PerApp
 import com.fanilo.restaurantfinder.RestaurantFinderApplication
+import com.fanilo.service.RemoteModule
+import com.fanilo.service.mapper.di.MapperModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -13,7 +15,9 @@ import dagger.android.AndroidInjectionModule
     modules = [
         AndroidInjectionModule::class,
         DaggerFactoryModule::class,
-        PreferenceModule::class
+        PreferenceModule::class,
+        MapperModule::class,
+        RemoteModule::class
     ]
 )
 interface AppComponent {

@@ -7,7 +7,6 @@ import com.fanilo.android.StringPreference
 import com.fanilo.core.annotation.FoursquareEndpoint
 import com.fanilo.core.annotation.PerApp
 import com.fanilo.domain.IPreference
-import com.fanilo.restaurantfinder.BuildConfig
 import dagger.Module
 import dagger.Provides
 
@@ -24,6 +23,6 @@ class PreferenceModule {
     @PerApp
     @FoursquareEndpoint
     internal fun provideEndpoint(preferences: SharedPreferences): IPreference<String> {
-        return StringPreference("foursquare_endpoint", preferences, BuildConfig.VERSION_NAME)
+        return StringPreference("foursquare_endpoint", preferences, "https://api.foursquare.com")
     }
 }

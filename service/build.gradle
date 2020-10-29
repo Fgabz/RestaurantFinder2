@@ -77,5 +77,9 @@ dependencies {
     implementation commonDependencies.daggerSupport
 
 
+    implementation project(':domain')
+    implementation project(':entity')
     implementation project(':repository')
+    implementation project(':core')
+    implementation project(':core:android')
 }

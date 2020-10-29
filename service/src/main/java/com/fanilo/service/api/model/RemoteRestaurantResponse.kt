@@ -9,41 +9,41 @@ data class RemoteRestaurantResponse(
 
 data class Response(
     @SerializedName("venues")
-    val venues: List<Venue>?
+    val venues: List<RemoteVenue>
 )
 
-data class Venue(
+data class RemoteVenue(
     @SerializedName("categories")
-    val categories: List<Category?>?,
+    val categories: List<RemoteCategory>,
     @SerializedName("delivery")
-    val delivery: Delivery?,
+    val delivery: RemoteDelivery?,
     @SerializedName("hasPerk")
     val hasPerk: Boolean?,
     @SerializedName("id")
-    val id: String?,
+    val id: String,
     @SerializedName("location")
-    val location: Location?,
+    val location: RemoteLocation,
     @SerializedName("name")
     val name: String?,
     @SerializedName("referralId")
     val referralId: String?,
     @SerializedName("venuePage")
-    val venuePage: VenuePage?
+    val venuePage: RemoteVenuePage?
 )
 
-data class Category(
+data class RemoteCategory(
     @SerializedName("icon")
     val icon: Icon?,
     @SerializedName("id")
-    val id: String?,
+    val id: String,
     @SerializedName("name")
-    val name: String?,
+    val name: String,
     @SerializedName("pluralName")
-    val pluralName: String?,
+    val pluralName: String,
     @SerializedName("primary")
-    val primary: Boolean?,
+    val primary: Boolean,
     @SerializedName("shortName")
-    val shortName: String?
+    val shortName: String
 ) {
     data class Icon(
         @SerializedName("prefix")
@@ -53,15 +53,15 @@ data class Category(
     )
 }
 
-data class Delivery(
+data class RemoteDelivery(
     @SerializedName("id")
     val id: String?,
     @SerializedName("provider")
-    val provider: Provider?,
+    val provider: RemoteProvider?,
     @SerializedName("url")
     val url: String?
 ) {
-    data class Provider(
+    data class RemoteProvider(
         @SerializedName("icon")
         val icon: Icon?,
         @SerializedName("name")
@@ -78,35 +78,35 @@ data class Delivery(
     }
 }
 
-data class Location(
+data class RemoteLocation(
     @SerializedName("address")
-    val address: String?,
+    val address: String,
     @SerializedName("cc")
-    val cc: String?,
+    val cc: String,
     @SerializedName("city")
-    val city: String?,
+    val city: String,
     @SerializedName("country")
-    val country: String?,
+    val country: String,
     @SerializedName("crossStreet")
-    val crossStreet: String?,
+    val crossStreet: String,
     @SerializedName("distance")
-    val distance: Int?,
+    val distance: Int,
     @SerializedName("formattedAddress")
-    val formattedAddress: List<String?>?,
+    val formattedAddress: List<String>,
     @SerializedName("labeledLatLngs")
-    val labeledLatLngs: List<LabeledLatLng?>?,
+    val labeledLatLngs: List<RemoteLabeledLatLng>,
     @SerializedName("lat")
-    val lat: Double?,
+    val lat: Double,
     @SerializedName("lng")
-    val lng: Double?,
+    val lng: Double,
     @SerializedName("neighborhood")
-    val neighborhood: String?,
+    val neighborhood: String,
     @SerializedName("postalCode")
-    val postalCode: String?,
+    val postalCode: String,
     @SerializedName("state")
-    val state: String?
+    val state: String
 ) {
-    data class LabeledLatLng(
+    data class RemoteLabeledLatLng(
         @SerializedName("label")
         val label: String?,
         @SerializedName("lat")
@@ -116,7 +116,7 @@ data class Location(
     )
 }
 
-data class VenuePage(
+data class RemoteVenuePage(
     @SerializedName("id")
     val id: String?
 )
