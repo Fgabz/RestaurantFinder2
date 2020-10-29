@@ -1,0 +1,58 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+
+    compileSdkVersion androidCompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode androidAppVersionCode
+        versionName "${androidAppVersionName}"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+dependencies {
+    implementation commonDependencies.kotlin
+    implementation commonDependencies.kotlinCoroutines
+    implementation commonDependencies.androidKTX
+
+    implementation commonDependencies.timber
+
+    //Dagger
+    kapt commonDependencies.daggerCompiler
+    implementation commonDependencies.dagger
+    kapt commonDependencies.daggerProcessor
+    implementation commonDependencies.daggerAndroid
+    implementation commonDependencies.daggerSupport
+
+    implementation project(":core")
+    implementation project(":domain")
+    implementation project(":entity")
+
+    //test
+    testImplementation testDependencies.junit
+    testImplementation testDependencies.mockitoKotlin
+    testImplementation testDependencies.coroutinesTest
+}

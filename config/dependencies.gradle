@@ -1,0 +1,120 @@
+allprojects {
+    repositories {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+        google()
+        jcenter()
+        maven {
+            url 'https://maven.google.com/'
+        }
+        maven { url 'https://jitpack.io' }
+        maven {
+            url 'https://api.mapbox.com/downloads/v2/releases/maven'
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                // Do not change the username below.
+                // This should always be `mapbox` (not your username).
+                username = 'mapbox'
+                // Use the secret token you stored in gradle.properties as the password
+                password = properties.getProperty("MAPBOX_SECRET_ACCES_TOKEN")
+            }
+        }
+    }
+}
+
+ext {
+    //Android
+    androidBuildToolsVersion = '29.0.3'
+    androidMinSdkVersion = 21
+    androidTargetSdkVersion = 29
+    androidCompileSdkVersion = 29
+    androidAppVersionCode = 1
+    androidAppVersionName = 1.0
+
+    //AndroidX
+    androidXAppCompatVersion = '1.1.0'
+    annotationSupportVersion = '1.1.0'
+    androidLifecycleVersion = '2.2.0'
+    androidKTXVersion = '1.2.0'
+    constraintLayoutVersion = '2.0.0-beta3'
+    androidXRecyclerView = '1.1.0'
+
+    timberVersion = '4.7.1'
+
+    //Kotlin
+    kotlinVersion = ext.kotlin_version
+    kotlinCoroutinesVersion = '1.3.5'
+
+    //Mapbox
+    mapBoxVersion = '9.5.0'
+
+    //Libraries
+    daggerVersion = '2.27'
+    timberVersion = '4.7.1'
+    gsonVersion = '2.8.1'
+    retrofitVersion = '2.8.1'
+    okhttpLoggingVersion = '4.5.0'
+    javaxAnnotationVersion = '1.0'
+    javaxInjectVersion = '1'
+    coilVersion = '0.10.1'
+    threetenabpVersion = '1.2.4'
+
+    //Testing
+
+    junitVersion = '4.13'
+    mockitoKotlinVersion = '2.2.0'
+
+    commonDependencies = [
+            kotlin                 : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            kotlinCoroutines       : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion",
+            kotlinCoroutinesAndroid: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion",
+
+            androidKTX             : "androidx.core:core-ktx:$androidKTXVersion",
+
+            daggerCompiler         : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger                 : "com.google.dagger:dagger:${daggerVersion}",
+            daggerAndroid          : "com.google.dagger:dagger-android:${daggerVersion}",
+            daggerSupport          : "com.google.dagger:dagger-android-support:${daggerVersion}",
+            daggerProcessor        : "com.google.dagger:dagger-android-processor:${daggerVersion}",
+
+            timber                 : "com.jakewharton.timber:timber:${timberVersion}",
+
+            javaxAnnotation        : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject            : "javax.inject:javax.inject:${javaxInjectVersion}",
+
+            lifecycleViewModel     : "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidLifecycleVersion",
+
+            threetenabp            : "com.jakewharton.threetenabp:threetenabp:${threetenabpVersion}"
+    ]
+
+    archiDependencies = [
+            lifecycleExtensions: "androidx.lifecycle:lifecycle-extensions:$androidLifecycleVersion",
+            lifecycleViewModel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidLifecycleVersion"
+
+    ]
+
+    serviceDependencies = [
+            retrofit     : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            gson         : "com.squareup.retrofit2:converter-gson:${gsonVersion}",
+            okhttpLogging: "com.squareup.okhttp3:logging-interceptor:${okhttpLoggingVersion}",
+            mapbox       : "com.mapbox.mapboxsdk:mapbox-android-sdk:${mapBoxVersion}"
+    ]
+
+    uiDependencies = [
+            appCompat       : "androidx.appcompat:appcompat:${androidXAppCompatVersion}",
+            constraintLayout: "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}",
+            recyclerview    : "androidx.recyclerview:recyclerview:${androidXRecyclerView}",
+            coil            : "io.coil-kt:coil:${coilVersion}"
+    ]
+
+    testDependencies = [
+            junit         : "junit:junit:${junitVersion}",
+            kotlinTest    : "org.jetbrains.kotlin:kotlin-test:${kotlinVersion}",
+            mockitoKotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockitoKotlinVersion}",
+            coroutinesTest: "org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinCoroutinesVersion}"
+    ]
+
+}

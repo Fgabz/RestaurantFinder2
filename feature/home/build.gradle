@@ -1,0 +1,69 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode androidAppVersionCode
+        versionName "${androidAppVersionName}"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled project.hasProperty('coverage')
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+dependencies {
+    implementation commonDependencies.kotlin
+    implementation commonDependencies.kotlinCoroutines
+    implementation commonDependencies.kotlinCoroutinesAndroid
+    implementation commonDependencies.timber
+
+    //Dagger
+    kapt commonDependencies.daggerCompiler
+    implementation commonDependencies.dagger
+    kapt commonDependencies.daggerProcessor
+    implementation commonDependencies.daggerAndroid
+    implementation commonDependencies.daggerSupport
+    implementation commonDependencies.androidKTX
+
+    implementation archiDependencies.lifecycleViewModel
+    implementation archiDependencies.lifecycleExtensions
+
+    //UI
+    implementation uiDependencies.appCompat
+    implementation uiDependencies.constraintLayout
+
+}

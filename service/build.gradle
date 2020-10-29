@@ -1,0 +1,81 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode androidAppVersionCode
+        versionName "${androidAppVersionName}"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+
+    buildTypes {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+        debug {
+            testCoverageEnabled project.hasProperty('coverage')
+
+            buildConfigField("String", "FOURSQUARE_CLIENT_ID", "\"${properties.getProperty("FOURSQUARE_CLIENT_ID")}\"")
+            buildConfigField("String", "FOURSQUARE_CLIENT_SECRET", "\"${properties.getProperty("FOURSQUARE_CLIENT_SECRET")}\"")
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+    implementation commonDependencies.androidKTX
+    implementation commonDependencies.kotlin
+    implementation commonDependencies.kotlinCoroutines
+    implementation commonDependencies.kotlinCoroutinesAndroid
+    implementation commonDependencies.timber
+
+    //okHttpLogging
+    api serviceDependencies.okhttpLogging
+
+    //Retrofit
+    api serviceDependencies.retrofit
+    implementation serviceDependencies.gson
+
+    //Dagger
+    implementation commonDependencies.dagger
+    kapt commonDependencies.daggerCompiler
+    kapt commonDependencies.daggerProcessor
+    implementation commonDependencies.daggerAndroid
+    implementation commonDependencies.daggerSupport
+
+
+    implementation project(':repository')
+}

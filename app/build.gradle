@@ -1,0 +1,92 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+
+    defaultConfig {
+        applicationId "com.cleangithubviewer"
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+        versionCode androidAppVersionCode
+        versionName "${androidAppVersionName}"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+        debug {
+            testCoverageEnabled project.hasProperty('coverage')
+            debuggable true
+            minifyEnabled false
+            applicationIdSuffix '.dev'
+            versionNameSuffix '-dev'
+
+            buildConfigField("String", "FOURSQUARE_ENDPOINT", "\"https://api.foursquare.com\"")
+
+            buildConfigField("String", "MAPBOX_PUBLIC_ACCES_TOKEN", "\"${properties.getProperty("MAPBOX_PUBLIC_ACCES_TOKEN")}\"")
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation commonDependencies.kotlin
+    implementation commonDependencies.kotlinCoroutines
+    implementation commonDependencies.androidKTX
+    implementation uiDependencies.appCompat
+    implementation uiDependencies.constraintLayout
+    implementation uiDependencies.coil
+    implementation commonDependencies.threetenabp
+
+
+    implementation commonDependencies.timber
+
+    implementation commonDependencies.lifecycleViewModel
+
+    //okHttpLogging
+    api serviceDependencies.okhttpLogging
+
+    //Retrofit
+    api serviceDependencies.retrofit
+    implementation serviceDependencies.gson
+
+    //Dagger
+    kapt commonDependencies.daggerCompiler
+    implementation commonDependencies.dagger
+    kapt commonDependencies.daggerProcessor
+    implementation commonDependencies.daggerAndroid
+    implementation commonDependencies.daggerSupport
+
+
+    //modules
+    implementation project(':entity')
+    implementation project(':core')
+    implementation project(':core:android')
+    implementation project(':domain')
+
+    implementation project(':service')
+    implementation project(':repository')
+
+    //Feature module
+    implementation project(':feature:home')
+}

@@ -1,0 +1,16 @@
+include ':repository'
+include ':core:android'
+rootProject.name = "RestaurantFinder"
+
+
+include ':entity'
+
+include ':core'
+include ':core:android'
+include ':domain'
+
+include ':service'
+include ':app'
+
+include ':feature:home'
+
