@@ -6,6 +6,7 @@ import com.fanilo.core.annotation.PerApp
 import com.fanilo.repository.di.RepositoryModule
 import com.fanilo.restaurantfinder.RestaurantFinderApplication
 import com.fanilo.service.RemoteModule
+import com.fanilo.service.cache.di.PersistenceModule
 import com.fanilo.service.mapper.di.MapperModule
 import dagger.BindsInstance
 import dagger.Component
@@ -20,7 +21,8 @@ import dagger.android.AndroidInjectionModule
         PreferenceModule::class,
         MapperModule::class,
         RemoteModule::class,
-        RepositoryModule::class
+        RepositoryModule::class,
+        PersistenceModule::class
     ]
 )
 interface AppComponent {

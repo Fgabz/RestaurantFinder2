@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.fanilo.android.IDaggerFactoryViewModel
+import com.fanilo.entity.LatitudeLongitude
+import com.fanilo.entity.LatitudeLongitudeBounds
 import com.mapbox.android.core.permissions.PermissionsManager
 import com.mapbox.mapboxsdk.camera.CameraPosition
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
@@ -45,7 +47,7 @@ class MapFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        viewController.onCreate()
         mapView?.onCreate(savedInstanceState)
     }
 
@@ -85,14 +87,21 @@ class MapFragment : DaggerFragment() {
             // Set the LocationComponent's render mode
             renderMode = RenderMode.COMPASS
 
-            lastKnownLocation?.let {
+            lastKnownLocation?.let { location ->
                 val position = CameraPosition.Builder()
-                    .target(LatLng(it.latitude, it.longitude))
+                    .target(LatLng(location.latitude, location.longitude))
                     .zoom(11.0)
                     .build()
 
+                //?.contains()
                 mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 1000)
 
+                mapboxMap.getLatLngBoundsZoomFromCamera(mapboxMap.cameraPosition).latLngBounds?.let {
+                    viewController.onViewReady(
+                        LatitudeLongitudeBounds(it.latNorth, it.latSouth, it.lonEast, it.lonWest),
+                        LatitudeLongitude(location.latitude, location.longitude)
+                    )
+                }
             }
 
         }
