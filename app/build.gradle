@@ -8,7 +8,7 @@ android {
     buildToolsVersion androidBuildToolsVersion
 
     defaultConfig {
-        applicationId "com.cleangithubviewer"
+        applicationId "com.restaurantfinder"
         minSdkVersion androidMinSdkVersion
         targetSdkVersion androidTargetSdkVersion
         versionCode androidAppVersionCode

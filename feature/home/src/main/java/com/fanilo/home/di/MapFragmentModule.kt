@@ -3,7 +3,13 @@ package com.fanilo.home.di
 import androidx.lifecycle.ViewModel
 import com.fanilo.android.ViewModelKey
 import com.fanilo.core.annotation.PerFragment
+import com.fanilo.domain.FetchRestaurantUseCase
+import com.fanilo.home.IMapController
+import com.fanilo.home.IMapPresenter
+import com.fanilo.home.MapController
 import com.fanilo.home.MapFragment
+import com.fanilo.home.MapInteractor
+import com.fanilo.home.MapPresenter
 import com.fanilo.home.MapViewController
 import dagger.Binds
 import dagger.Module
@@ -19,6 +25,15 @@ abstract class MapFragmentModule {
         @ContributesAndroidInjector(modules = [MapFragmentModule::class])
         abstract fun contributeMapperFragmentInjector(): MapFragment
     }
+
+    @Binds
+    abstract fun provideFetchUseCase(interactor: MapInteractor): FetchRestaurantUseCase
+
+    @Binds
+    abstract fun provideMapController(controller: MapController): IMapController
+
+    @Binds
+    abstract fun providePresenter(presenter: MapPresenter): IMapPresenter
 
     @Binds
     @IntoMap

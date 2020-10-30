@@ -71,4 +71,6 @@ dependencies {
     implementation uiDependencies.appCompat
     implementation uiDependencies.constraintLayout
 
+    implementation serviceDependencies.mapbox
+
 }

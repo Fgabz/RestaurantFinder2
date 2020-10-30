@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.fanilo.android.IDaggerFactoryViewModel
+import com.mapbox.mapboxsdk.maps.Style
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.map_fragment.*
 import javax.inject.Inject
 
 class MapFragment : DaggerFragment() {
@@ -32,6 +33,51 @@ class MapFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        mapView?.onCreate(savedInstanceState)
+        mapView?.getMapAsync { mapboxMap ->
+
+            mapboxMap.setStyle(Style.MAPBOX_STREETS) {
+                // Map is set up and the style has loaded. Now you can add data or make other map adjustments
+
+            }
+
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView?.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView?.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView?.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView?.onStop()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        mapView?.onSaveInstanceState(outState)
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView?.onLowMemory()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mapView.onDestroy()
     }
 
     companion object {
