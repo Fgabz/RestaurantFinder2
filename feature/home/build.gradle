@@ -72,5 +72,6 @@ dependencies {
     implementation uiDependencies.constraintLayout
 
     implementation serviceDependencies.mapbox
+    implementation serviceDependencies.mapboxCore
 
 }

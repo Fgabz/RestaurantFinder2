@@ -1,5 +1,6 @@
 package com.fanilo.home
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.fanilo.android.IDaggerFactoryViewModel
+import com.mapbox.android.core.permissions.PermissionsManager
+import com.mapbox.mapboxsdk.camera.CameraPosition
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
+import com.mapbox.mapboxsdk.geometry.LatLng
+import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions
+import com.mapbox.mapboxsdk.location.LocationComponentOptions
+import com.mapbox.mapboxsdk.location.modes.CameraMode
+import com.mapbox.mapboxsdk.location.modes.RenderMode
+import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.map_fragment.*
@@ -18,6 +28,8 @@ class MapFragment : DaggerFragment() {
     lateinit var viewModelFactory: IDaggerFactoryViewModel
 
     private lateinit var viewController: MapViewController
+
+    private lateinit var mapboxMap: MapboxMap
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -35,10 +47,51 @@ class MapFragment : DaggerFragment() {
         super.onActivityCreated(savedInstanceState)
 
         mapView?.onCreate(savedInstanceState)
-        mapView?.getMapAsync { mapboxMap ->
+    }
 
-            mapboxMap.setStyle(Style.MAPBOX_STREETS) {
-                // Map is set up and the style has loaded. Now you can add data or make other map adjustments
+    fun initMap() {
+        mapView?.getMapAsync { mapBox ->
+            this.mapboxMap = mapBox
+            mapBox.setStyle(Style.MAPBOX_STREETS) {
+                if (PermissionsManager.areLocationPermissionsGranted(requireContext())) {
+                    enableLocationComponent(it)
+                }
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun enableLocationComponent(style: Style) {
+// Create and customize the LocationComponent's options
+        val customLocationComponentOptions = LocationComponentOptions.builder(requireContext())
+            .trackingGesturesManagement(true)
+            .build()
+
+        val locationComponentActivationOptions = LocationComponentActivationOptions.builder(requireContext(), style)
+            .locationComponentOptions(customLocationComponentOptions)
+            .build()
+
+        // Get an instance of the LocationComponent and then adjust its settings
+        mapboxMap.locationComponent.apply {
+            // Activate the LocationComponent with options
+            activateLocationComponent(locationComponentActivationOptions)
+
+            // Enable to make the LocationComponent visible
+            isLocationComponentEnabled = true
+
+            // Set the LocationComponent's camera mode
+            cameraMode = CameraMode.TRACKING
+
+            // Set the LocationComponent's render mode
+            renderMode = RenderMode.COMPASS
+
+            lastKnownLocation?.let {
+                val position = CameraPosition.Builder()
+                    .target(LatLng(it.latitude, it.longitude))
+                    .zoom(11.0)
+                    .build()
+
+                mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 1000)
 
             }
 

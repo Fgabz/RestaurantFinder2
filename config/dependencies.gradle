@@ -50,6 +50,7 @@ ext {
 
     //Mapbox
     mapBoxVersion = '9.5.0'
+    mapBoxCoreVersion = '3.1.0'
 
     //Libraries
     daggerVersion = '2.27'
@@ -97,7 +98,8 @@ ext {
             retrofit     : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             gson         : "com.squareup.retrofit2:converter-gson:${gsonVersion}",
             okhttpLogging: "com.squareup.okhttp3:logging-interceptor:${okhttpLoggingVersion}",
-            mapbox       : "com.mapbox.mapboxsdk:mapbox-android-sdk:${mapBoxVersion}"
+            mapbox       : "com.mapbox.mapboxsdk:mapbox-android-sdk:${mapBoxVersion}",
+            mapboxCore   : "com.mapbox.mapboxsdk:mapbox-android-core:${mapBoxCoreVersion}"
     ]
 
     uiDependencies = [

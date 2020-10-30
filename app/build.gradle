@@ -88,4 +88,7 @@ dependencies {
 
     //Feature module
     implementation project(':feature:home')
+
+    implementation serviceDependencies.mapbox
+    implementation serviceDependencies.mapboxCore
 }
