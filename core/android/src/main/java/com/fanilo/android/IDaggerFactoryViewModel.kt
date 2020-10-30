@@ -1,4 +1,4 @@
-package com.fanilo.restaurantfinder.di
+package com.fanilo.android
 
 import androidx.lifecycle.ViewModelProvider
 

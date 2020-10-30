@@ -51,6 +51,11 @@ dependencies {
     implementation commonDependencies.kotlinCoroutinesAndroid
     implementation commonDependencies.timber
 
+    implementation project(":domain")
+    implementation project(":entity")
+    implementation project(":core")
+    implementation project(":core:android")
+
     //Dagger
     kapt commonDependencies.daggerCompiler
     implementation commonDependencies.dagger

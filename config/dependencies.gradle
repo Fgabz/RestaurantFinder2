@@ -85,15 +85,12 @@ ext {
             javaxAnnotation        : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject            : "javax.inject:javax.inject:${javaxInjectVersion}",
 
-            lifecycleViewModel     : "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidLifecycleVersion",
-
             threetenabp            : "com.jakewharton.threetenabp:threetenabp:${threetenabpVersion}"
     ]
 
     archiDependencies = [
             lifecycleExtensions: "androidx.lifecycle:lifecycle-extensions:$androidLifecycleVersion",
             lifecycleViewModel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidLifecycleVersion"
-
     ]
 
     serviceDependencies = [

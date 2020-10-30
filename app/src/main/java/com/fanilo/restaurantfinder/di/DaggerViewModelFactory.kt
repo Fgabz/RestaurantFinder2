@@ -1,6 +1,7 @@
 package com.fanilo.restaurantfinder.di
 
 import androidx.lifecycle.ViewModel
+import com.fanilo.android.IDaggerFactoryViewModel
 import javax.inject.Inject
 import javax.inject.Provider
 

@@ -37,8 +37,10 @@ dependencies {
     implementation commonDependencies.kotlin
     implementation commonDependencies.kotlinCoroutines
     implementation commonDependencies.androidKTX
-
+    implementation archiDependencies.lifecycleExtensions
+    implementation archiDependencies.lifecycleViewModel
     implementation commonDependencies.timber
+    
 
     //Dagger
     kapt commonDependencies.daggerCompiler

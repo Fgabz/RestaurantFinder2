@@ -3,6 +3,7 @@ package com.fanilo.restaurantfinder.di
 import android.app.Application
 import android.content.Context
 import com.fanilo.core.annotation.PerApp
+import com.fanilo.repository.di.RepositoryModule
 import com.fanilo.restaurantfinder.RestaurantFinderApplication
 import com.fanilo.service.RemoteModule
 import com.fanilo.service.mapper.di.MapperModule
@@ -14,10 +15,12 @@ import dagger.android.AndroidInjectionModule
 @Component(
     modules = [
         AndroidInjectionModule::class,
+        ActivityBuilder::class,
         DaggerFactoryModule::class,
         PreferenceModule::class,
         MapperModule::class,
-        RemoteModule::class
+        RemoteModule::class,
+        RepositoryModule::class
     ]
 )
 interface AppComponent {

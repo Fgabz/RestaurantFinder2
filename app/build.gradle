@@ -61,7 +61,7 @@ dependencies {
 
     implementation commonDependencies.timber
 
-    implementation commonDependencies.lifecycleViewModel
+    implementation archiDependencies.lifecycleViewModel
 
     //okHttpLogging
     api serviceDependencies.okhttpLogging
