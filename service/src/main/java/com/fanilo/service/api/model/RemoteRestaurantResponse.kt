@@ -24,7 +24,7 @@ data class RemoteVenue(
     @SerializedName("location")
     val location: RemoteLocation,
     @SerializedName("name")
-    val name: String?,
+    val name: String,
     @SerializedName("referralId")
     val referralId: String?,
     @SerializedName("venuePage")
@@ -80,7 +80,7 @@ data class RemoteDelivery(
 
 data class RemoteLocation(
     @SerializedName("address")
-    val address: String,
+    val address: String?,
     @SerializedName("cc")
     val cc: String,
     @SerializedName("city")

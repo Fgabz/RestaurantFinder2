@@ -73,5 +73,6 @@ dependencies {
 
     implementation serviceDependencies.mapbox
     implementation serviceDependencies.mapboxCore
+    implementation serviceDependencies.mapboxAnnotation
 
 }

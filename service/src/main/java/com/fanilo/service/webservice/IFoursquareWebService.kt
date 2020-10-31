@@ -8,5 +8,9 @@ import retrofit2.http.Query
 interface IFoursquareWebService {
 
     @GET("/v2/venues/search?categoryId=4d4b7105d754a06374d81259")
-    suspend fun fetchRestaurant(@Query("ll") coordinate: String): Response<RemoteRestaurantResponse>
+    suspend fun fetchRestaurant(
+        @Query("ll") coordinate: String,
+        @Query("limit") resultLimit: Int = 20,
+        @Query("radius") radius: Int = 400
+    ): Response<RemoteRestaurantResponse>
 }

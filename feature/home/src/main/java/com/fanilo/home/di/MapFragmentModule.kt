@@ -11,6 +11,8 @@ import com.fanilo.home.MapFragment
 import com.fanilo.home.MapInteractor
 import com.fanilo.home.MapPresenter
 import com.fanilo.home.MapViewController
+import com.fanilo.home.viewstate.IMarkerViewStateMapper
+import com.fanilo.home.viewstate.MarkerViewStateMapper
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -34,6 +36,9 @@ abstract class MapFragmentModule {
 
     @Binds
     abstract fun providePresenter(presenter: MapPresenter): IMapPresenter
+
+    @Binds
+    abstract fun provideViewStateMapper(mapper: MarkerViewStateMapper): IMarkerViewStateMapper
 
     @Binds
     @IntoMap

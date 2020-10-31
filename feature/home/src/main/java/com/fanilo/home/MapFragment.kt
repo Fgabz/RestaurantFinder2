@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import com.fanilo.android.IDaggerFactoryViewModel
+import com.fanilo.android.extension.createViewControllerWith
+import com.fanilo.android.extension.observe
+import com.fanilo.android.extension.with
 import com.fanilo.entity.LatitudeLongitude
 import com.fanilo.entity.LatitudeLongitudeBounds
 import com.mapbox.android.core.permissions.PermissionsManager
@@ -20,6 +22,9 @@ import com.mapbox.mapboxsdk.location.modes.CameraMode
 import com.mapbox.mapboxsdk.location.modes.RenderMode
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions
+import com.mapbox.mapboxsdk.utils.BitmapUtils
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.map_fragment.*
 import javax.inject.Inject
@@ -32,10 +37,11 @@ class MapFragment : DaggerFragment() {
     private lateinit var viewController: MapViewController
 
     private lateinit var mapboxMap: MapboxMap
+    private lateinit var symbolManager: SymbolManager
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewController = ViewModelProvider(this, viewModelFactory).get(MapViewController::class.java)
+        viewController = createViewControllerWith(viewModelFactory)
     }
 
     override fun onCreateView(
@@ -47,14 +53,35 @@ class MapFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewController.onCreate()
         mapView?.onCreate(savedInstanceState)
+        viewController.onViewCreated(savedInstanceState)
+
+        observe(viewController.liveDataRestaurantViewState) with { markerList ->
+            val option = SymbolOptions()
+            for (marker in markerList) {
+                symbolManager.create(
+                    option
+                        .withLatLng(LatLng(marker.latLng.first, marker.latLng.second))
+                        .withIconImage(ICON_ID)
+                        .withTextField(marker.restaurantName)
+                )
+            }
+        }
     }
 
     fun initMap() {
-        mapView?.getMapAsync { mapBox ->
+        mapView.getMapAsync { mapBox ->
             this.mapboxMap = mapBox
             mapBox.setStyle(Style.MAPBOX_STREETS) {
+                BitmapUtils.getBitmapFromDrawable(resources.getDrawable(R.drawable.mapbox_marker_icon_default))?.let { it1 ->
+                    it.addImage(
+                        ICON_ID,
+                        it1
+                    )
+                }
+
+                symbolManager = SymbolManager(mapView, mapboxMap, it)
+
                 if (PermissionsManager.areLocationPermissionsGranted(requireContext())) {
                     enableLocationComponent(it)
                 }
@@ -64,7 +91,7 @@ class MapFragment : DaggerFragment() {
 
     @SuppressLint("MissingPermission")
     private fun enableLocationComponent(style: Style) {
-// Create and customize the LocationComponent's options
+
         val customLocationComponentOptions = LocationComponentOptions.builder(requireContext())
             .trackingGesturesManagement(true)
             .build()
@@ -73,30 +100,24 @@ class MapFragment : DaggerFragment() {
             .locationComponentOptions(customLocationComponentOptions)
             .build()
 
-        // Get an instance of the LocationComponent and then adjust its settings
         mapboxMap.locationComponent.apply {
-            // Activate the LocationComponent with options
             activateLocationComponent(locationComponentActivationOptions)
 
-            // Enable to make the LocationComponent visible
             isLocationComponentEnabled = true
 
-            // Set the LocationComponent's camera mode
             cameraMode = CameraMode.TRACKING
-
-            // Set the LocationComponent's render mode
             renderMode = RenderMode.COMPASS
 
             lastKnownLocation?.let { location ->
                 val position = CameraPosition.Builder()
                     .target(LatLng(location.latitude, location.longitude))
-                    .zoom(11.0)
+                    .zoom(15.0)
                     .build()
 
                 mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 1000)
 
                 mapboxMap.getLatLngBoundsZoomFromCamera(mapboxMap.cameraPosition).latLngBounds?.let {
-                    viewController.onViewReady(
+                    viewController.onMapReady(
                         LatitudeLongitudeBounds(it.latNorth, it.latSouth, it.lonEast, it.lonWest),
                         LatitudeLongitude(location.latitude, location.longitude)
                     )
@@ -143,5 +164,6 @@ class MapFragment : DaggerFragment() {
 
     companion object {
         fun newInstance() = MapFragment()
+        private const val ICON_ID = "ICON_ID"
     }
 }
