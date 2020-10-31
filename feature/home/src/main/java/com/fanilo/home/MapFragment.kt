@@ -93,7 +93,6 @@ class MapFragment : DaggerFragment() {
                     .zoom(11.0)
                     .build()
 
-                //?.contains()
                 mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 1000)
 
                 mapboxMap.getLatLngBoundsZoomFromCamera(mapboxMap.cameraPosition).latLngBounds?.let {

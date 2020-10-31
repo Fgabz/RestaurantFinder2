@@ -1,6 +1,7 @@
 package com.fanilo.home
 
 import com.fanilo.core.annotation.PerFragment
+import com.fanilo.core.annotation.extension.contains
 import com.fanilo.domain.FetchRestaurantUseCase
 import com.fanilo.domain.repository.IRestaurantDataSource
 import com.fanilo.entity.LatitudeLongitude
@@ -17,8 +18,15 @@ class MapInteractor @Inject constructor(
 ) : FetchRestaurantUseCase {
 
     override suspend fun fetchRestaurant(cameraBounds: LatitudeLongitudeBounds, latitudeLongitude: LatitudeLongitude) {
+        restaurantDataSource.getCachedRestaurant().onSuccess {
+            val cachedResult = it.filter { restaurant ->
+                cameraBounds.contains(restaurant.location.LatitudeLongitude)
+            }
+            presenter.displayRestaurant(cachedResult)
+        }
+
         restaurantDataSource.fetchNearRestaurant("${latitudeLongitude.latitude}, ${latitudeLongitude.longitude}").onSuccess {
-            presenter.displayRestaurant(cameraBounds, it)
+            presenter.displayRestaurant(it)
         }.onFailure { error, message, _ ->
             Timber.e(error, message)
         }
