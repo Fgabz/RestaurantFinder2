@@ -1,6 +1,5 @@
 package com.fanilo.core.annotation.extension
 
-import com.fanilo.entity.Coordinate
 import com.fanilo.entity.LatitudeLongitude
 import com.fanilo.entity.LatitudeLongitudeBounds
 

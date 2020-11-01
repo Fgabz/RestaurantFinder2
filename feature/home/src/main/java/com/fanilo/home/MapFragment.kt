@@ -109,14 +109,19 @@ class MapFragment : DaggerFragment() {
             renderMode = RenderMode.COMPASS
 
             lastKnownLocation?.let { location ->
-                val position = CameraPosition.Builder()
+                val cameraPosition = CameraPosition.Builder()
                     .target(LatLng(location.latitude, location.longitude))
-                    .zoom(15.0)
+                    .zoom(MAP_ZOOM_LEVEL)
                     .build()
 
-                mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 1000)
+                mapboxMap.cameraPosition = cameraPosition
+                mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1000)
 
-                mapboxMap.getLatLngBoundsZoomFromCamera(mapboxMap.cameraPosition).latLngBounds?.let {
+                val bounds =
+                    mapboxMap.getLatLngBoundsZoomFromCamera(cameraPosition)
+
+
+                bounds?.latLngBounds?.let {
                     viewController.onMapReady(
                         LatitudeLongitudeBounds(it.latNorth, it.latSouth, it.lonEast, it.lonWest),
                         LatitudeLongitude(location.latitude, location.longitude)
@@ -165,5 +170,6 @@ class MapFragment : DaggerFragment() {
     companion object {
         fun newInstance() = MapFragment()
         private const val ICON_ID = "ICON_ID"
+        private const val MAP_ZOOM_LEVEL = 15.0
     }
 }
