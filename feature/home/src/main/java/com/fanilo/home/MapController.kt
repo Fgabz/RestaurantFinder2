@@ -12,4 +12,8 @@ class MapController @Inject constructor(private val fetchRestaurantUseCase: Fetc
     override suspend fun onViewReady(cameraBounds: LatitudeLongitudeBounds, latitudeLongitude: LatitudeLongitude) {
         fetchRestaurantUseCase.fetchRestaurant(cameraBounds, latitudeLongitude)
     }
+
+    override suspend fun onLoadMoreRestaurant(bounds: LatitudeLongitudeBounds, cameraPosition: LatitudeLongitude) {
+        fetchRestaurantUseCase.fetchRestaurant(bounds, cameraPosition)
+    }
 }

@@ -84,8 +84,23 @@ class MapFragment : DaggerFragment() {
 
                 if (PermissionsManager.areLocationPermissionsGranted(requireContext())) {
                     enableLocationComponent(it)
+                    initCameraListener()
                 }
             }
+        }
+    }
+
+    private fun initCameraListener() {
+        mapboxMap.addOnCameraIdleListener {
+            println("camera position ${mapboxMap.cameraPosition}")
+
+            val bounds =
+                mapboxMap.getLatLngBoundsZoomFromCamera(mapboxMap.cameraPosition).latLngBounds
+
+            viewController.onLoadMoreRestaurant(
+                LatitudeLongitudeBounds(bounds.latNorth, bounds.latSouth, bounds.lonEast, bounds.lonWest),
+                LatitudeLongitude(mapboxMap.cameraPosition.target.latitude, mapboxMap.cameraPosition.target.longitude)
+            )
         }
     }
 

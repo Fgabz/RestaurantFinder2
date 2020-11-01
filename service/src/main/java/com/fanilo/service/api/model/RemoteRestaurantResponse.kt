@@ -84,7 +84,7 @@ data class RemoteLocation(
     @SerializedName("cc")
     val cc: String,
     @SerializedName("city")
-    val city: String,
+    val city: String?,
     @SerializedName("country")
     val country: String,
     @SerializedName("crossStreet")

@@ -36,4 +36,8 @@ class MapViewController @Inject constructor(
     fun onMapReady(cameraBounds: LatitudeLongitudeBounds, latitudeLongitude: LatitudeLongitude) = viewModelScope.launch(Dispatchers.IO) {
         controller.onViewReady(cameraBounds, latitudeLongitude)
     }
+
+    fun onLoadMoreRestaurant(bounds: LatitudeLongitudeBounds, cameraPosition: LatitudeLongitude) = viewModelScope.launch(Dispatchers.IO) {
+       controller.onLoadMoreRestaurant(bounds, cameraPosition)
+    }
 }

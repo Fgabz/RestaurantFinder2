@@ -14,7 +14,7 @@ class RemoteFoursquareResponseMapper @Inject constructor() : IRemoteFoursquareRe
         location = Coordinate(
             LatitudeLongitude(remote.location.lat, remote.location.lng),
             remote.location.address ?: "",
-            remote.location.city
+            remote.location.city ?: ""
         ),
         category = remote.categories.map {
             Category(it.shortName)
