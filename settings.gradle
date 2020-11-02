@@ -1,5 +1,4 @@
-include ':repository'
-include ':core:android'
+
 rootProject.name = "RestaurantFinder"
 
 
@@ -14,3 +13,6 @@ include ':app'
 
 include ':feature:home'
 
+include ':core:test'
+include ':repository'
+include ':core:android'

@@ -1,4 +1,4 @@
-package com.fanilo.service
+package com.fanilo.test
 
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse

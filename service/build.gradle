@@ -88,4 +88,5 @@ dependencies {
     testImplementation testDependencies.mockitoKotlin
     testImplementation testDependencies.coroutinesTest
     testImplementation testDependencies.mockitoWebServer
+    testImplementation project(":core:test")
 }

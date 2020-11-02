@@ -9,6 +9,9 @@ import com.fanilo.entity.restaurant.Restaurant
 import com.fanilo.repository.service.IRemoteFoursquareService
 import com.fanilo.service.mapper.IRemoteFoursquareResponseMapper
 import com.fanilo.service.webservice.IFoursquareWebService
+import com.fanilo.test.AsyncLiveDataRule
+import com.fanilo.test.prefetchError
+import com.fanilo.test.prefetchSuccess
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -17,7 +20,9 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestRule
 import java.io.IOException
 
 class RemoteFoursquareServiceTest {
@@ -33,7 +38,7 @@ class RemoteFoursquareServiceTest {
     fun setUp() {
         mockWebServer.start()
 
-        webService = MockRemoteClient(mockWebServer).get(IFoursquareWebService::class.java)
+        webService = com.fanilo.test.MockRemoteClient(mockWebServer).get(IFoursquareWebService::class.java)
         remote = RemoteFoursquareService(webService, mapper)
     }
 
