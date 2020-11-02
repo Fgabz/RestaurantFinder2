@@ -1,5 +1,6 @@
 package com.fanilo.home
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -24,6 +25,10 @@ class MapViewController @Inject constructor(
         presenter.onAttachView(this)
     }
 
+    override fun onViewReady(extras: Bundle?) = viewModelScope.launch(Dispatchers.IO) {
+        controller.onViewReady()
+    }
+
     override fun onViewFinished() {
         super.onViewFinished()
         presenter.onDetachView()
@@ -34,7 +39,7 @@ class MapViewController @Inject constructor(
     }
 
     fun onMapReady(cameraBounds: LatitudeLongitudeBounds, latitudeLongitude: LatitudeLongitude) = viewModelScope.launch(Dispatchers.IO) {
-        controller.onViewReady(cameraBounds, latitudeLongitude)
+        controller.onMapReady(cameraBounds, latitudeLongitude)
     }
 
     fun onLoadMoreRestaurant(bounds: LatitudeLongitudeBounds, cameraPosition: LatitudeLongitude) = viewModelScope.launch(Dispatchers.IO) {

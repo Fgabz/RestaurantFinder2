@@ -5,6 +5,7 @@ import com.fanilo.core.annotation.PerFragment
 import com.fanilo.core.annotation.extension.contains
 import com.fanilo.domain.FetchOnMapReadyUseCase
 import com.fanilo.domain.FetchRestaurantUseCase
+import com.fanilo.domain.StartCoordinateEvenDebouncerUseCase
 import com.fanilo.domain.repository.IRestaurantDataSource
 import com.fanilo.entity.LatitudeLongitude
 import com.fanilo.entity.LatitudeLongitudeBounds
@@ -22,12 +23,14 @@ import javax.inject.Inject
 class MapInteractor @Inject constructor(
     private val restaurantDataSource: IRestaurantDataSource,
     private val presenter: IMapPresenter
-) : FetchOnMapReadyUseCase, FetchRestaurantUseCase {
+) : FetchOnMapReadyUseCase, FetchRestaurantUseCase, StartCoordinateEvenDebouncerUseCase {
 
-    private val eventChannel: Channel<Pair<LatitudeLongitudeBounds, LatitudeLongitude>> = Channel()
+    @VisibleForTesting
+    val eventChannel: Channel<Pair<LatitudeLongitudeBounds, LatitudeLongitude>> = Channel()
     private lateinit var availabilityFlow: Flow<Pair<LatitudeLongitudeBounds, LatitudeLongitude>>
 
-    override suspend fun fetchOnMapReady(cameraBounds: LatitudeLongitudeBounds, latitudeLongitude: LatitudeLongitude) {
+    //Debouncing to avoid to do too many request while the user is panning the map
+    override suspend fun startEventCoordinateEventDebouncer() {
         if (!::availabilityFlow.isInitialized) {
             availabilityFlow = eventChannel.consumeAsFlow()
 
@@ -37,8 +40,6 @@ class MapInteractor @Inject constructor(
                     fetchRestaurantCollector(it.first, it.second)
                 }
         }
-
-        eventChannel.send(Pair(cameraBounds, latitudeLongitude))
     }
 
     @VisibleForTesting

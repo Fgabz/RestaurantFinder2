@@ -65,7 +65,7 @@ ext {
     threetenabpVersion = '1.2.4'
 
     //Testing
-
+    mockitoWebServerVersion = '4.7.2'
     junitVersion = '4.13'
     mockitoKotlinVersion = '2.2.0'
 
@@ -115,7 +115,8 @@ ext {
             junit         : "junit:junit:${junitVersion}",
             kotlinTest    : "org.jetbrains.kotlin:kotlin-test:${kotlinVersion}",
             mockitoKotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockitoKotlinVersion}",
-            coroutinesTest: "org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinCoroutinesVersion}"
+            coroutinesTest: "org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinCoroutinesVersion}",
+            mockitoWebServer         : "com.squareup.okhttp3:mockwebserver:${mockitoWebServerVersion}"
     ]
 
 }

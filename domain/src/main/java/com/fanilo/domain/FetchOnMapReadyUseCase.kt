@@ -4,5 +4,5 @@ import com.fanilo.entity.LatitudeLongitude
 import com.fanilo.entity.LatitudeLongitudeBounds
 
 interface FetchOnMapReadyUseCase {
-    suspend fun fetchOnMapReady(cameraBounds: LatitudeLongitudeBounds, latitudeLongitude: LatitudeLongitude)
+    suspend fun fetchRestaurant(cameraBounds: LatitudeLongitudeBounds, latitudeLongitude: LatitudeLongitude)
 }

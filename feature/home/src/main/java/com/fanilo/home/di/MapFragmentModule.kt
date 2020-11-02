@@ -5,6 +5,7 @@ import com.fanilo.android.ViewModelKey
 import com.fanilo.core.annotation.PerFragment
 import com.fanilo.domain.FetchOnMapReadyUseCase
 import com.fanilo.domain.FetchRestaurantUseCase
+import com.fanilo.domain.StartCoordinateEvenDebouncerUseCase
 import com.fanilo.home.IMapController
 import com.fanilo.home.IMapPresenter
 import com.fanilo.home.MapController
@@ -34,6 +35,9 @@ abstract class MapFragmentModule {
 
     @Binds
     abstract fun provideFetchUseCase(interactor: MapInteractor): FetchRestaurantUseCase
+
+    @Binds
+    abstract fun provideStartCoordinateEvenDebouncerUseCase(interactor: MapInteractor): StartCoordinateEvenDebouncerUseCase
 
     @Binds
     abstract fun provideMapController(controller: MapController): IMapController

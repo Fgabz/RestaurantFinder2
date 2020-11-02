@@ -82,4 +82,10 @@ dependencies {
     implementation project(':repository')
     implementation project(':core')
     implementation project(':core:android')
+
+    //Test
+    testImplementation testDependencies.junit
+    testImplementation testDependencies.mockitoKotlin
+    testImplementation testDependencies.coroutinesTest
+    testImplementation testDependencies.mockitoWebServer
 }

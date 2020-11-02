@@ -5,6 +5,7 @@ import com.fanilo.entity.LatitudeLongitude
 import com.fanilo.entity.LatitudeLongitudeBounds
 
 interface IMapController : BaseController {
-    suspend fun onViewReady(cameraBounds: LatitudeLongitudeBounds, latitudeLongitude: LatitudeLongitude)
+    suspend fun onMapReady(cameraBounds: LatitudeLongitudeBounds, latitudeLongitude: LatitudeLongitude)
     suspend fun onLoadMoreRestaurant(bounds: LatitudeLongitudeBounds, cameraPosition: LatitudeLongitude)
+    suspend fun onViewReady()
 }
